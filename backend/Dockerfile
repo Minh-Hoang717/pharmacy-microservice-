@@ -9,7 +9,7 @@ RUN mvn clean package -DskipTests
 
 # --- GIAI ĐOẠN 2: CHẠY SERVER ---
 # Dùng ổ đĩa ảo siêu nhẹ chỉ chứa môi trường chạy Java 17
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 # Lấy file .jar vừa đóng gói ở bước trên ném sang đây
 COPY --from=build /app/target/*.jar app.jar
