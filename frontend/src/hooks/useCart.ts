@@ -48,7 +48,7 @@ export const useCart = () => {
   const clearCart = () => setCart([]);
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const totalPrice = cart.reduce((acc, item) => acc + ((item.buyingPrice || 0) * item.quantity), 0);
 
   return { cart, addToCart, updateQuantity, removeFromCart, clearCart, totalItems, totalPrice };
 };

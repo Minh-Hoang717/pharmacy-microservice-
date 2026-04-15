@@ -1,11 +1,9 @@
 export interface Product {
   id: number;
-  name: string;
-  price: number;
-  imageUrl: string;
-  description?: string;
-  stock?: number;
-  // Các field khác tuỳ thuộc backend trả về
+  productName: string;
+  buyingPrice: number;
+  productDescription?: string;
+  shortDescription?: string;
 }
 
 export interface CartItem extends Product {
@@ -15,6 +13,7 @@ export interface CartItem extends Product {
 export interface OrderPayload {
   userId: number;
   paymentMethod: string;
+  couponId?: number;
   orderItems: {
     productId: number;
     quantity: number;

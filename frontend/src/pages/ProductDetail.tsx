@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { productService } from '../services/api';
 import type { Product } from '../types';
 import { useCart } from '../hooks/useCart';
-import { Loader2, ShoppingCart, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Loader2, ShoppingCart, ArrowLeft, CheckCircle, Pill } from 'lucide-react';
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -55,7 +55,7 @@ export const ProductDetail: React.FC = () => {
     setTimeout(() => setAdded(false), 2000);
   };
 
-  const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price);
+  const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.buyingPrice || 0);
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -70,29 +70,26 @@ export const ProductDetail: React.FC = () => {
       <div className="bg-white border md:border-gray-200 border-transparent rounded-xl overflow-hidden md:shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           
-          <div className="aspect-square bg-gray-100 flex items-center justify-center p-8">
-            {product.imageUrl ? (
-              <img 
-                src={product.imageUrl} 
-                alt={product.name}
-                className="w-full object-contain rounded-md mix-blend-multiply"
-              />
-            ) : (
-              <span className="text-gray-400">Không có ảnh</span>
-            )}
+          <div className="aspect-square bg-gray-50 flex items-center justify-center p-8 border-b md:border-b-0 md:border-r border-gray-100">
+            <Pill className="w-32 h-32 text-emerald-200" />
           </div>
 
-          <div className="flex flex-col justify-center p-6 md:p-10 pl-0">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 tracking-tight">
-              {product.name}
+          <div className="flex flex-col justify-center p-6 md:p-10 pl-4 md:pl-0">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2 tracking-tight">
+              {product.productName}
             </h1>
+            
+            {product.shortDescription && (
+              <p className="text-gray-500 mb-4">{product.shortDescription}</p>
+            )}
+
             <p className="text-3xl font-extrabold text-emerald-600 mb-6">
               {formattedPrice}
             </p>
             
-            {product.description && (
-              <div className="prose text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg">
-                {product.description}
+            {product.productDescription && (
+              <div className="prose prose-sm text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg">
+                {product.productDescription}
               </div>
             )}
 

@@ -2,31 +2,40 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../hooks/useCart';
 import { orderService } from '../services/api';
-import { Trash2, Plus, Minus, CreditCard, Loader2, Info } from 'lucide-react';
+import { Trash2, Plus, Minus, CreditCard, Loader2, Info, Pill } from 'lucide-react';
 
 export const Cart: React.FC = () => {
   const navigate = useNavigate();
   const { cart, updateQuantity, removeFromCart, clearCart, totalPrice } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  // Custom Dynamic Input cho user
+  const [customerId, setCustomerId] = useState<string>('8');
 
   const formattedTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice);
 
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
     if (cart.length === 0) return;
+    
+    const parsedUserId = parseInt(customerId, 10);
+    if (isNaN(parsedUserId)) {
+      setError('Mã khách hàng phải là số');
+      return;
+    }
 
     try {
       setLoading(true);
       setError(null);
       
       const payload = {
-        userId: 8, // Fake userId theo UI mockup
+        userId: parsedUserId, 
         paymentMethod: 'cash',
         orderItems: cart.map(item => ({
           productId: item.id,
           quantity: item.quantity,
-          price: item.price
+          price: item.buyingPrice
         }))
       };
 
@@ -80,33 +89,31 @@ export const Cart: React.FC = () => {
         <div className="lg:col-span-8 space-y-4">
           {cart.map(item => (
             <div key={item.id} className="flex gap-4 bg-white p-4 rounded-lg border border-gray-200 items-center">
-              <div className="h-20 w-20 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
-                {item.imageUrl ? (
-                  <img src={item.imageUrl} alt={item.name} className="h-full w-full object-cover" />
-                ) : (
-                  <span className="text-xs text-gray-400">No Img</span>
-                )}
+              <div className="h-20 w-20 flex-shrink-0 bg-gray-50 rounded-md overflow-hidden flex items-center justify-center border border-gray-100">
+                <Pill className="text-emerald-200 w-8 h-8" />
               </div>
               
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm md:text-base font-medium text-gray-900 truncate">
-                  {item.name}
+                <h3 className="text-sm md:text-base font-medium text-gray-900 truncate" title={item.productName}>
+                  {item.productName}
                 </h3>
                 <p className="text-sm text-emerald-600 font-bold mt-1">
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.buyingPrice || 0)}
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
                  <div className="flex items-center border border-gray-300 rounded-md">
                    <button 
+                     type="button"
                      className="p-1 px-2 hover:bg-gray-100 text-gray-600 rounded-l-md transition"
                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
                    >
                      <Minus className="h-4 w-4" />
                    </button>
-                   <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
+                   <span className="text-sm font-medium w-8 text-center bg-gray-50 py-1">{item.quantity}</span>
                    <button 
+                     type="button"
                      className="p-1 px-2 hover:bg-gray-100 text-gray-600 rounded-r-md transition"
                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
                    >
@@ -115,6 +122,7 @@ export const Cart: React.FC = () => {
                  </div>
                  
                  <button 
+                   type="button"
                    onClick={() => removeFromCart(item.id)}
                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition"
                    title="Xoá sản phẩm"
@@ -133,14 +141,29 @@ export const Cart: React.FC = () => {
               Tóm tắt đơn hàng
             </h2>
             
-            <div className="space-y-3 mb-6">
-              <div className="flex justify-between text-gray-600">
+            <div className="mb-4">
+               <label htmlFor="customerId" className="block text-sm font-medium text-gray-700 mb-1">
+                 Mã Khách Hàng (Tạm thời)
+               </label>
+               <input 
+                 id="customerId"
+                 type="number" 
+                 required
+                 value={customerId}
+                 onChange={(e) => setCustomerId(e.target.value)}
+                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500"
+               />
+               <p className="text-xs text-gray-500 mt-1">Do chưa có đăng nhập, vui lòng nhập ID tĩnh vào đây.</p>
+            </div>
+
+            <div className="space-y-3 mb-6 pt-4 border-t border-gray-200">
+              <div className="flex justify-between text-gray-600 text-sm">
                 <span>Tạm tính ({cart.length} món)</span>
                 <span>{formattedTotal}</span>
               </div>
-              <div className="flex justify-between text-gray-600">
+              <div className="flex justify-between text-gray-600 text-sm">
                 <span>Phí giao hàng</span>
-                <span className="text-emerald-600 text-sm">Miễn phí</span>
+                <span className="text-emerald-600">Miễn phí</span>
               </div>
             </div>
             
@@ -168,9 +191,6 @@ export const Cart: React.FC = () => {
                 </>
               )}
             </button>
-            <p className="text-xs text-gray-500 mt-4 text-center">
-              (Order sẽ tự gán userId: 8 theo mock authentication)
-            </p>
           </form>
         </div>
       </div>
