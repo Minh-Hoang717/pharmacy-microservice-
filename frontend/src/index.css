@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: var(--color-emerald-600);
+  --color-primary-hover: var(--color-emerald-700);
+  --color-surface: var(--color-white);
+  --color-background: var(--color-gray-50);
+  --color-border: var(--color-gray-200);
+  --color-text-main: var(--color-gray-900);
+  --color-text-muted: var(--color-gray-500);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+}
+
+@layer base {
+  html, body {
+    @apply bg-gray-50 text-gray-900 antialiased font-sans;
+  }
+}
