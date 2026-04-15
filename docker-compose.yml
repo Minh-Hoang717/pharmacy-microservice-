@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # 1. Dịch vụ Backend
+  backend:
+    build:
+      context: ./backend      # Chỉ tới thư mục backend để tìm Dockerfile
+      dockerfile: Dockerfile
+    container_name: pharmacy-backend
+    ports:
+      - "8080:8080"           # Ánh xạ Cổng ra ngoài cho Frontend/Trình duyệt truy cập
+    environment:
+      # Nếu backend có biến môi trường (ví dụ URL database) thì thêm ở đây.
+      # Mặc định Spring Boot Dockerfile đã ổn định nghiệm thu rồi
+      - SPRING_PROFILES_ACTIVE=dev
+
+  # 2. Dịch vụ Frontend
+  frontend:
+    build:
+      context: ./frontend     # Chỉ thư mục frontend để build
+      dockerfile: Dockerfile
+      args:
+        # Cấu hình để Frontend build với API chĩa thẳng vào localhost của Backend
+        VITE_API_BASE_URL: "http://localhost:8080"
+    container_name: pharmacy-frontend
+    ports:
+      - "80:80"               # Ánh xạ truy cập qua cổng mặc định siêu đẹp (http://localhost)
+    depends_on:
+      - backend               # Đảm bảo Backend lên sóng trước rồi mới tính tới Frontend
