@@ -88,9 +88,10 @@ export const ProductDetail: React.FC = () => {
             </p>
             
             {product.productDescription && (
-              <div className="prose prose-sm text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg">
-                {product.productDescription}
-              </div>
+              <div 
+                className="prose prose-sm text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg"
+                dangerouslySetInnerHTML={{ __html: product.productDescription }}
+              />
             )}
 
             <button
