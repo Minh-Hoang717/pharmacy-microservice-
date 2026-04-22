@@ -15,13 +15,16 @@ public class ProductController {
 
     private final ProductService productService;
 
-    // GET /api/products?page=0&size=12
+    // GET /api/products?keyword=...&categoryId=...&brandId=...&page=0&size=12
     @GetMapping
-    public ResponseEntity<Page<ProductSummaryDto>> getActiveProducts(
+    public ResponseEntity<Page<ProductSummaryDto>> getFilteredProducts(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) Long brandId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "12") int size
     ) {
-        return ResponseEntity.ok(productService.getActiveProducts(page, size));
+        return ResponseEntity.ok(productService.getFilteredProducts(keyword, categoryId, brandId, page, size));
     }
 
     // GET /api/products/{id} — vẫn trả đầy đủ, kể cả productDescription

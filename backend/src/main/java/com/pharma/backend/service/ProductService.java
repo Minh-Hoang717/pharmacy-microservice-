@@ -17,10 +17,10 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    // Phân trang: mặc định 12 sản phẩm/trang, sắp xếp theo id giảm dần (mới nhất trước)
-    public Page<ProductSummaryDto> getActiveProducts(int page, int size) {
+    // Phân trang và lọc: hỗ trợ keyword, categoryId, brandId
+    public Page<ProductSummaryDto> getFilteredProducts(String keyword, Long categoryId, Long brandId, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-        return productRepository.findActiveSummaries(pageable);
+        return productRepository.findWithFilters(keyword, categoryId, brandId, pageable);
     }
 
     // Giữ lại cho ProductDetail — trả đầy đủ thông tin kể cả productDescription

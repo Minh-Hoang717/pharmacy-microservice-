@@ -77,20 +77,22 @@ GET /api/products/{id}             ← public, trả đầy đủ kể cả prod
 
 ---
 
-## ⬜ Phase 2 — Category/Brand + Filter sản phẩm — CHƯA LÀM
+## ✅ Phase 2 — Category/Brand + Filter sản phẩm — ĐÃ HOÀN THÀNH
 
-### Các file cần tạo mới
+### Các file đã tạo mới
 
 | File | Mô tả |
 |------|-------|
 | `entity/Category.java` | Map bảng `categories` |
 | `entity/Brand.java` | Map bảng `brands` |
+| `entity/ProductCategory.java` | Map bảng `product_categories` |
+| `entity/ProductBrand.java` | Map bảng `product_brands` |
 | `repository/CategoryRepository.java` | `findByActiveTrue()` |
 | `repository/BrandRepository.java` | `findByActiveTrue()` |
 | `controller/CategoryController.java` | GET /api/categories |
 | `controller/BrandController.java` | GET /api/brands |
 
-### Các file cần sửa
+### Các file đã sửa
 
 | File | Sửa gì |
 |------|--------|
@@ -98,12 +100,12 @@ GET /api/products/{id}             ← public, trả đầy đủ kể cả prod
 | `service/ProductService.java` | Thêm `getFilteredProducts(keyword, categoryId, brandId, page, size)` |
 | `controller/ProductController.java` | Thêm query params: `keyword`, `categoryId`, `brandId` |
 
-### Endpoints sẽ tạo
+### Endpoints đã tạo
 
 ```
 GET /api/categories                                          ← public, mới
 GET /api/brands                                              ← public, mới
-GET /api/products?keyword=&categoryId=&brandId=&page=&size= ← public, nâng cấp
+GET /api/products?keyword=&categoryId=&brandId=&page=&size=  ← public, nâng cấp
 ```
 
 ---
@@ -339,10 +341,11 @@ GET  /api/orders/{id}    ← token tự động qua interceptor
 - [x] Bỏ `userId` khỏi `OrderRequest`
 - [x] Test Postman: POST order ✅ GET my ✅ GET /{id} ✅
 
-### Phase 2 — Chưa làm
-- [ ] Tạo `Category`, `Brand` entity + repository + controller
-- [ ] Cập nhật `ProductRepository` hỗ trợ filter
-- [ ] Cập nhật `ProductService` + `ProductController` nhận keyword/categoryId/brandId
+### Phase 2 — Category/Brand + Filter
+- [x] Tạo `Category`, `Brand`, `ProductCategory`, `ProductBrand` entity
+- [x] Tạo `CategoryRepository`, `BrandRepository`, `CategoryController`, `BrandController`
+- [x] Cập nhật `ProductRepository` thêm `findWithFilters`
+- [x] Cập nhật `ProductService` + `ProductController` nhận keyword/categoryId/brandId
 
 ---
 
