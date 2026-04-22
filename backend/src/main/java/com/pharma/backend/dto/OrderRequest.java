@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class OrderRequest {
-    private Long userId;
+    // userId đã bị xóa — backend tự lấy từ JWT token
     private String paymentMethod;
     private Long couponId;
     private List<OrderItem> orderItems;

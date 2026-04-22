@@ -1,13 +1,13 @@
 package com.pharma.backend.repository;
 
-import com.pharma.backend.entity.OrderItem;
+import com.pharma.backend.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    List<OrderItem> findByOrderId(Long orderId);
+    List<Category> findByActiveTrue();
 }
