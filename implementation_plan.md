@@ -243,7 +243,7 @@ GET  /api/auth/me         header: Authorization: Bearer <token>
 
 ---
 
-## ⬜ Phase 2 — Category/Brand + Filter — CHƯA LÀM (chờ backend Phase 2)
+## ⬜ Phase 2 — Category/Brand + Filter
 
 ### Các file cần tạo mới
 
@@ -369,7 +369,7 @@ GET  /api/orders/{id}    ← token tự động qua interceptor
 - [ ] Tạo `OrderDetail.tsx`
 - [ ] Cập nhật `Cart.tsx` (bỏ `userId` khỏi payload)
 
-### Phase 2 — Chờ backend hoàn thành Phase 2
+### Phase 2
 - [ ] Thêm types `Category`, `Brand`
 - [ ] Tạo `categoryService.ts`
 - [ ] Cập nhật `Home.tsx` (sidebar lọc + search debounce)
