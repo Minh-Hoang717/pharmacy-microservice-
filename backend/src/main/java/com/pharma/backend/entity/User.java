@@ -49,6 +49,15 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "avatar")
+    private String avatar;
+
+    @Column(name = "account_type")
+    private String accountType; // Hoặc dùng Enum nếu bạn thích
+
+    @Column(name = "email_verified_at")
+    private LocalDateTime emailVerifiedAt;
+
     // ---- UserDetails methods ----
 
     @Override

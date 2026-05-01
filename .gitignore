@@ -1,2 +1,23 @@
-.vscode/
+# Bỏ qua file cấu hình của IDE
 .idea/
+.vscode/
+*.iml
+
+# Bỏ qua rác của hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Bỏ qua thư viện Frontend (Cực kỳ nặng)
+node_modules/
+dist/
+build/
+
+# Bỏ qua file sinh ra từ Backend
+target/
+*.jar
+*.class
+*.log
+
+# Bỏ qua file chứa mật khẩu nhạy cảm
+.env
+.env.local
