@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { productService } from '../services/api';
 import type { Product } from '../types';
 import { useCart } from '../hooks/useCart';
-import { Loader2, ShoppingCart, ArrowLeft, CheckCircle, Pill } from 'lucide-react';
+import { Loader2, ShoppingCart, ArrowLeft, CheckCircle, Pill, ChevronDown, ChevronUp } from 'lucide-react';
 
 export const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -13,6 +13,7 @@ export const ProductDetail: React.FC = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [added, setAdded] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -88,10 +89,32 @@ export const ProductDetail: React.FC = () => {
             </p>
             
             {product.productDescription && (
-              <div 
-                className="prose prose-sm text-gray-600 mb-8 p-4 bg-gray-50 rounded-lg"
-                dangerouslySetInnerHTML={{ __html: product.productDescription }}
-              />
+              <div className="mb-8">
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <div
+                    className={`prose prose-sm text-gray-600 overflow-hidden transition-[max-height] duration-300 ease-in-out ${
+                      descExpanded ? 'max-h-[9999px]' : 'max-h-[4.5rem]'
+                    }`}
+                    dangerouslySetInnerHTML={{ __html: product.productDescription }}
+                  />
+                </div>
+                <button
+                  onClick={() => setDescExpanded((v) => !v)}
+                  className="mt-2 flex items-center gap-1 text-sm text-emerald-600 hover:text-emerald-800 transition-colors"
+                >
+                  {descExpanded ? (
+                    <>
+                      <ChevronUp className="h-4 w-4" />
+                      Thu gọn
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="h-4 w-4" />
+                      Xem thêm
+                    </>
+                  )}
+                </button>
+              </div>
             )}
 
             <button

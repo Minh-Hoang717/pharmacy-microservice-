@@ -19,3 +19,23 @@
     @apply bg-gray-50 text-gray-900 antialiased font-sans;
   }
 }
+
+@layer utilities {
+  /*
+   * Reset CSS cho productDescription được scrape từ website gốc.
+   * HTML gốc chứa CSS variables (--width-container, v.v.) không tồn tại
+   * trong app này, dẫn đến width bị tính về 0 → text xếp từng chữ 1 dòng.
+   */
+  .product-desc,
+  .product-desc * {
+    width: auto !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .product-desc {
+    overflow-x: hidden;
+  }
+}
+
